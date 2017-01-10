@@ -1,0 +1,59 @@
+---
+title: "Ecological data management and analysis in R"
+output: 
+  ioslides_presentation:
+    widescreen: true
+    incremental: true
+---
+
+***
+### Why use R to manage and analyze ecological data? {.build}
+
+- Code is **reproducible**. This means you can share it with your collaborators, reviewers, and other researchers and they will be able to see exactly what you did.  
+
+- Code is **easily revised**. If you need to change an early step in your analysis pathway, it is generally easy to make the change and re-run the rest of your analyses.  
+
+- R is **open-source**. It's free to use, and its associated programs are free to use, so this means that you won't have to buy programs to analyse your data.  
+
+- R has an **excellent support community**. If you run into a problem, it's highly likely that someone has already figured out the solution and put it online.
+
+
+***
+### Sounds great! Let's get started.
+<br>
+
+But first we need data.
+  
+Example data source: Cameron EK, Cahill JF Jr, Bayne EM (2014) Root foraging influences plant growth responses to earthworm foraging. PLoS ONE 9(9): e108873.
+
+The authors did a great job making their data tidy and accessible, but for learning purposes, I've messed it up a bit.
+
+***
+### What does tidy data look like? {.build}
+<br>
+
+- Each column contains one **variable** of a single format
+
+- Each row contains one **observation**
+
+- Each table/file contains one data set
+
+- Column names are succinct and intuitive and have descriptive metadata associated with them
+
+- "Note" fields are useful and informative
+
+- Data has been checked for typos and outliers
+
+- For more on tidy data: http://vita.had.co.nz/papers/tidy-data.pdf
+
+***
+### Datasheet design and data entry
+<br>
+
+- Datasheet design and data entry are best done in Excel, Google sheets, or equivalent program.
+
+- Datasheets should always contain a header with room for the date, the location, the experiment, and the names of the observers.
+
+- Datasheets should be arranged intuitively to facilitate efficiency and minimize recording errors.
+
+- Whenever appropriate, randomize your observations or experimental units. This can be facilitated with random number generators in Excel etc.
