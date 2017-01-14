@@ -41,32 +41,6 @@
 
 # you'll start by tidying data in Excel, then I'll show you how to import the data into R. 
 
-## INSTRUCTOR ONLY
-
-# once they have looked at their data a bit, show them how to import into R 
-# and use summary to see if values are in the expected ranges (see next section)
-
-# KEY to data fixes 
-# root-void-occurence
-# - grid id 6o -> 60
-# - ACHMILL -> ACHMIL
-# - 11030 -> 1103
-# - correct uninformative notes
-# - root = 11 -> root = 1
-# - worms ?? -> worms NA
-# 
-# plant-biomass
-# - separate metadata from data
-# - remove extra header
-# - remove notes that are in value boxes
-# - standardize NAs
-
-# root-death
-# - dead -> 1
-# - names correction
-
-## END INSTRUCTOR ONLY
-
 # SKILL CHECK - do you know how to...
 # - create a new Rproject?
 # - examine data in Excel?
@@ -82,14 +56,6 @@
 library(tidyverse)
 
 # a package is a set of programs and commands. anyone can develop and contribute packages for R. anytime you want to try out a new package, you'll need to install it first with the install.packages() command. you only need to install once, but each time you want to use the package, you'll need to load it with the library() command.
-
-## INSTRUCTOR ONLY
-
-# library(devtools)
-# install_github("dill/emoGG")
-library(emoGG)
-
-## END INSTRUCTOR ONLY
 
 # now, load your data
 # start with your .csv file (from Excel, "Save as", you can only save one sheet per file)
@@ -113,7 +79,6 @@ numbers
 
 names <- c("Amy","Megan","Rachel")
 names
-
 
 # NA is the default symbol for a missing value. you can perform numeric operations on a numeric column that contains NAs, whereas if it contained other text that would prevent R from recognizing it as a numeric column. the same applies to factors.
 
@@ -224,8 +189,6 @@ ggplot(am_rootvoids_means,aes(x = day, y = prop_root, color = voidtype)) +
 # 3. add error bars to your plots (hint: stat_summary())
 # 4. extend the lines to begin at 0,0 as in the paper's plots (I couldn't find a quick way to do this in the ggplot command, so I found a work-around. let me know what you come up with!)
 
-## INSTRUCTOR ONLY
-
 # one possible solution:
 
 # add full species names
@@ -252,7 +215,6 @@ rootvoids_means <- rootvoids %>%
 
 ggplot(data = rootvoids_origins, aes(x = day, y = root, color = voidtype)) +
   geom_point(stat = "summary", fun.y = "mean") +
-  # add_emoji(emoji = "1f41b") +
   geom_path(stat = "summary", fun.y = "mean") +
   stat_summary(fun.data = "mean_cl_normal", width = 5, geom = "errorbar") +
   xlim(0,105) + 
@@ -260,12 +222,9 @@ ggplot(data = rootvoids_origins, aes(x = day, y = root, color = voidtype)) +
   facet_grid(. ~ species, labeller = ) +
   scale_color_discrete(name = "Void type") +
   labs(title = "Root colonization of voids", x = "Time (days)", y = "Proportion of voids colonized") +
-  theme(plot.title = element_text(hjust = 0.5), strip.text = element_text(face = "italic")) +
-  # geom_emoji(emoji = "1f41b", data = rootvoids_means, aes(x = day, y = prop_root))
+  theme(plot.title = element_text(hjust = 0.5), strip.text = element_text(face = "italic"))
 
 # note that the error bars on their plot are smaller because these are just based on a normal distribution
-
-## END INSTRUCTOR ONLY
 
 # SKILL CHECK - do you know how to...
 # - filter() a dataframe based on the value of a single column?
@@ -322,8 +281,7 @@ ggplot(data = rootdeath, aes(x = voidtype, y = dead, fill = species)) +
 # it's okay if your plot is slightly different in style or format from the plot in the paper, but keep
 # the same groups and y-axis
 
-## INSTRUCTOR ONLY
-# plant-biomass reshape
+# DEMO: plant-biomass reshape
 
 plants_wide <- read.csv("roots-tidy/plant-biomass-wide.csv")
   
@@ -350,7 +308,7 @@ plants$biomass_type <- factor(plants$biomass_type, labels = c("root", "shoot"))
 # and write the table out as a .csv
 # write.csv(plants,"roots-tidy/plant-biomass.csv", row.names = FALSE)
 
-## END INSTRUCTOR ONLY
+# END DEMO
 
 # plot type = bar
 # x-axis = species and biomass type
@@ -403,41 +361,3 @@ ggplot(data = plants, aes(x = sp_mass_wrap, y = biomass, fill = worms)) +
 # y-axis = 
 # grouping = 
 
-
-
-# EXTRA -------------------------------------------------------------------
-
-# Methods text from Cameron et al.
-
-# We digitized the locations of roots, burrows, and cracks in the soil in images obtained at four time steps 
-# (01 September 2010, 29 September 2010, 03 November 2010, 08 December 2010) in ArcGIS (v 10, Esri). Images 
-# from each pot (18 mm × 222 mm) were divided into 6 mm ×6 mm grid cells, with 111 cells per pot. We then 
-# determined occurrence of roots, burrows, and cracks within each cell at each time step.
-# 
-# Mixed effects logistic regression was used to examine root occurrence over time within grid cells 
-# containing burrows and cracks for each species separately. These models included void type (burrow, crack, 
-# or none), date, and the interaction of void type and date as fixed effects. The first date was not included 
-# in the analysis as planting had occurred just prior to imaging and there were no roots present at the depth 
-# of the mini-rhizotron tube. Pot identity and grid cell were used as random effects to account for 
-# correlations among grid cells within pots and within grid cells over time. We also performed post-hoc 
-# pairwise comparisons, with a Bonferroni correction for multiple testing, to examine root occurrence in 
-# cracks versus burrows at each time step. We focused our analysis on comparison of cracks versus burrows 
-# because detectability of roots is expected to be similar within these void types. In contrast, 
-# detectability might differ in the soil matrix versus in voids (cracks and burrows), as roots in voids are 
-# likely easier to see.
-# 
-# A similar mixed effects logistic regression analysis was used to examine differences in root mortality 
-# within grid cells containing burrows, cracks, and soil. We included a random effect to account for pot 
-# identity and a fixed effect to control for the date of initial colonization of cells by roots. In this 
-# analysis, we examined only grid cells with roots present during the experiment. Roots were considered to 
-# have died when they were no longer visible in the cell at subsequent time steps. Analyses were also 
-# performed using a random effect for tube identity (there were five pots along each tube), but they produced 
-# similar results and thus are not shown.
-# 
-# To assess effects of earthworms on root and shoot biomass, we used mixed effects linear regression with 
-# earthworm presence as a fixed effect and tube identity as a random effect. Species were analyzed separately. 
-# We also examined earthworm effects on biomass allocation to shoots versus roots using mixed effects linear 
-# regression with shoot biomass as the dependent variable and root biomass, earthworms, and the interaction 
-# between root biomass and earthworms as fixed effects. Tube identity was included as a random effect in this 
-# analysis as well. Normality was assessed by inspection of residuals and data were log transformed if non-
-# normal. All analyses were conducted in Stata (v 12, StataCorp).
