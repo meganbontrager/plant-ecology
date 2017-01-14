@@ -39,11 +39,11 @@ The authors did a great job making their data tidy and accessible, but for learn
 
 - Each table/file contains one data set
 
-- Column names are succinct and intuitive and have descriptive metadata associated with them
+- Column names are succinct, intuitive and have descriptive metadata associated with them
 
 - "Note" fields are useful and informative
 
-- Data has been checked for typos and outliers
+- Data has been checked for typos
 
 - For more on tidy data: http://vita.had.co.nz/papers/tidy-data.pdf
 
@@ -55,6 +55,18 @@ The authors did a great job making their data tidy and accessible, but for learn
 - Open roots-messy.xls in a spreadsheet program
 - I'll assign you a section to work on
 - Tidy up your section and save it as a .csv file
+
+
+***
+### Time for some hands-on coding...
+<br>
+Goals:  
+
+- Get familiar with the RStudio interface
+- Learn to write, run, and comment on code
+- Learn to import and view data in R with <span style="color:magenta">read_csv</span>, <span style="color:magenta">head</span>, <span style="color:magenta">dim</span>, and <span style="color:magenta">summary</span>
+- Learn some basic data manipulation (<span style="color:magenta">%>%</span>, <span style="color:magenta">filter</span>, <span style="color:magenta">group_by</span>, <span style="color:magenta">select</span>, and <span style="color:magenta">summarize</span>)
+- Learn to visualize data by recreating plots from Cameron et al. with <span style="color:magenta">ggplot2</span>
 
 ***
 ### Datasheet design and data entry
