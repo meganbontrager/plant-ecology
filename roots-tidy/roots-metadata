@@ -1,15 +1,43 @@
 roots metadata
 
+root-void-occurence
+  id: concatenated id of grid cell, tube, pot
+  tubeid: tube id
+  potid: pot id
+  gridid: grid id
+  species: plant species (ACHMIL = Achillea millefolium, CAMROT = Campanula rotundifolia)
+  burrow: is there a burrow in this cell? 1 = yes, 0 = no
+  crack: is there a crack in this cell? 1 = yes, 0 = no
+  root: is there a root in this cell? 1 = yes, 0 = no
+  worms: present or absent
+  voidtype: soil, crack, or burrow (on day 99)
+  day: day of observation,	29 = Sept 29, 64 = Nov 03, 99 = Dec 08
+  
+plant-biomass-wide
+  tube: tube that plant was grown in 
+  pot: pot id of plant
+  species: plant species (ACHMIL = Achillea millefolium, CAMROT = Campanula rotundifolia)
+  worms: present or absent
+  biomass_type: is this data from roots or shoots?
+  biomass: biomass in grams
+  
 plant-biomass
   tube: tube that plant was grown in 
   pot: pot id of plant
   species: plant species (ACHMIL = Achillea millefolium, CAMROT = Campanula rotundifolia)
-  ...
-
-root-void-occurence
-  
+  worms: present or absent
+  shootbiomass: biomass of aboveground tissue in grams
+  rootbiomass: biomass of belowground tissue in grams
+  initialleaflength: inital leaf length (probably at planting time, probably in mm)
   
 root-death
-  voidtype: 0=soil, 1=crack, 2=burrow
-  worms: 0=absent, 1=present
-  date colonized:	1=9.29, 2=11.03, 3=12.08
+  id: concatenated id of grid cell, tube, pot
+  tubeid: tube id
+  potid: pot id
+  gridid: grid id
+  species: plant species (ACHMIL = Achillea millefolium, CAMROT = Campanula rotundifolia)
+  voidtype: soil, crack, or burrow (on day 99)
+  daycolonized:	29 = Sept 29, 64 = Nov 03, 99 = Dec 08
+  worms: absent or present
+  dead: 1 = dead, 0 = alive
+  

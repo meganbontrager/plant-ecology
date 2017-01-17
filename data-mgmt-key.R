@@ -86,7 +86,7 @@ names
 
 summary(mydata)
 
-# data anomalies can be addressed by returning to the .csv file in excel (don't forget to reload it into R after modifying!) or (once you're more proficient in R) data problems should be corrected in your code. note that you should NOT remove true outliers from your data. this is just an opportunity to correct typos etc.
+# data anomalies can be addressed by returning to the .csv file in excel (don't forget to reload it into R after modifying) or (once you're more proficient in R) data problems should be corrected in your code. note that you should NOT remove true outliers from your data. this is just an opportunity to correct typos etc.
 
 # SKILL CHECK - do you know how to...
 # - install and load libraries?
