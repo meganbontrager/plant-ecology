@@ -20,26 +20,38 @@ output:
 
 
 ***
-### Sounds great! Let's get started.
+### Sounds great! Let's get started. {.build}
+<br>  
+
+- **Put the class project files onto your computer.**  
+
+- **Open up RStudio.**  
+
+- **Make an Rproject for this course.** File -> New project -> New directory -> Empty project
+
+- Choose the directory that you'd like your project to be in and give your project a name. This will create a folder with your project file inside it.
+
+- An Rproject is basically an organizer for a given project. When you open a project, you'll have easy access to the files associated with that project. **Put all the files I've given you into the folder associated with your Rproject.** 
+
+
+***
+### Now we need data. {.build}
 <br>
+Not just any data, but tidy data.
 
-But first we need data.
-  
-Example data source: Cameron EK, Cahill JF Jr, Bayne EM (2014) Root foraging influences plant growth responses to earthworm foraging. PLoS ONE 9(9): e108873.
 
-The authors did a great job making their data tidy and accessible, but for learning purposes, I've messed it up a bit.
 
 ***
 ### What does tidy data look like? {.build}
 <br>
-
+  
 - Each column contains one **variable** in a consistent format
 
 - Each row contains one **observation**
 
 - Each table/file contains one data set
 
-- Column names are succinct, intuitive and have descriptive metadata associated with them
+- Column names are succinct (no spaces!), intuitive and have descriptive metadata associated with them in a separate file
 
 - "Note" fields are useful and informative
 
@@ -47,19 +59,27 @@ The authors did a great job making their data tidy and accessible, but for learn
 
 - For more on tidy data: http://vita.had.co.nz/papers/tidy-data.pdf
 
-***
-### Tidy data exercise
-<br>
-
-- Form groups of 2-3
-- Open roots-messy.xls in a spreadsheet program
-- I'll assign you a section to work on
-- Tidy up your section and save it as a .csv file
-
+- Motivation: you'll need to produce tidy data for your final project
 
 ***
-### Time for some hands-on coding...
+### Tidy data exercise {.build}
 <br>
+Example data source: Cameron EK, Cahill JF Jr, Bayne EM (2014) **Root foraging influences plant growth responses to earthworm foraging.** PLoS ONE 9(9): e108873.  
+
+(The authors did a great job making their data tidy and accessible, but for learning purposes, I've messed it up a bit.)  
+  
+- Open up roots-messy.xlsx in Excel, Google Sheets, etc.
+
+- Working in groups of 2-3, look at the data and identify issues that should be corrected before analysis.
+
+- Then I'll demonstrate how to import a tidy data frame into R and check for any remaining problems.
+
+***
+### Time for some hands-on coding... {.build}
+<br>
+
+Open data-mgmt-student.R in RStudio.
+
 Goals:  
 
 - Get familiar with the RStudio interface

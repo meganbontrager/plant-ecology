@@ -107,11 +107,19 @@
 
 <p><br></p>
 
-<p>But first we need data.</p>
+<ul class = 'build'>
+<li><p><strong>Put the class project files onto your computer.</strong></p></li>
+<li><p><strong>Open up RStudio.</strong></p></li>
+<li><p><strong>Make an Rproject for this course.</strong> File -&gt; New project -&gt; New directory -&gt; Empty project</p></li>
+<li><p>Choose the directory that you&#39;d like your project to be in and give your project a name. This will create a folder with your project file inside it.</p></li>
+<li><p>An Rproject is basically an organizer for a given project. When you open a project, you&#39;ll have easy access to the files associated with that project. <strong>Put all the files I&#39;ve given you into the folder associated with your Rproject.</strong></p></li>
+</ul>
 
-<p>Example data source: Cameron EK, Cahill JF Jr, Bayne EM (2014) Root foraging influences plant growth responses to earthworm foraging. PLoS ONE 9(9): e108873.</p>
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
-<p>The authors did a great job making their data tidy and accessible, but for learning purposes, I&#39;ve messed it up a bit.</p>
+<h3>Now we need data.</h3>
+
+<p><br> Not just any data, but tidy data.</p>
 
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
@@ -123,30 +131,36 @@
 <li><p>Each column contains one <strong>variable</strong> in a consistent format</p></li>
 <li><p>Each row contains one <strong>observation</strong></p></li>
 <li><p>Each table/file contains one data set</p></li>
-<li><p>Column names are succinct, intuitive and have descriptive metadata associated with them</p></li>
+<li><p>Column names are succinct (no spaces!), intuitive and have descriptive metadata associated with them in a separate file</p></li>
 <li><p>&quot;Note&quot; fields are useful and informative</p></li>
 <li><p>Data has been checked for typos</p></li>
 <li><p>For more on tidy data: <a href='http://vita.had.co.nz/papers/tidy-data.pdf' title=''>http://vita.had.co.nz/papers/tidy-data.pdf</a></p></li>
+<li><p>Motivation: you&#39;ll need to produce tidy data for your final project</p></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <h3>Tidy data exercise</h3>
 
-<p><br></p>
+<p><br> Example data source: Cameron EK, Cahill JF Jr, Bayne EM (2014) <strong>Root foraging influences plant growth responses to earthworm foraging.</strong> PLoS ONE 9(9): e108873.</p>
+
+<p>(The authors did a great job making their data tidy and accessible, but for learning purposes, I&#39;ve messed it up a bit.)</p>
 
 <ul class = 'build'>
-<li>Form groups of 2-3</li>
-<li>Open roots-messy.xls in a spreadsheet program</li>
-<li>I&#39;ll assign you a section to work on</li>
-<li>Tidy up your section and save it as a .csv file</li>
+<li><p>Open up roots-messy.xlsx in Excel, Google Sheets, etc.</p></li>
+<li><p>Working in groups of 2-3, look at the data and identify issues that should be corrected before analysis.</p></li>
+<li><p>Then I&#39;ll demonstrate how to import a tidy data frame into R and check for any remaining problems.</p></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <h3>Time for some hands-on coding&#8230;</h3>
 
-<p><br> Goals:</p>
+<p><br></p>
+
+<p>Open data-mgmt-student.R in RStudio.</p>
+
+<p>Goals:</p>
 
 <ul class = 'build'>
 <li>Get familiar with the RStudio interface</li>
