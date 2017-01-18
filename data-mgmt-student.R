@@ -1,0 +1,290 @@
+## PLANT ECOLOGY (BIOL406): Data management and manipulation
+
+# in the following excercises, we'll recreate some of the figures from:
+  # Cameron EK, Cahill JF Jr, Bayne EM (2014) Root Foraging Influences Plant Growth Responses 
+  # to Earthworm Foraging. PLoS ONE 9(9): e108873. doi:10.1371/journal.pone.0108873
+
+# I wrote these exercises on a mac, so please alert me if you're having trouble translating any of the instructions on a PC.
+
+# RStudio panes and tabs:
+# source, script
+# console
+# plots
+# files
+# packages (go over later)
+# help
+# environment
+
+# useful keyboard shortcuts:
+  # shift+command/ctrl+C -> make a line a comment
+  # shift+command/ctrl+M -> make a pipe
+  # command/ctrl+enter -> runs highlighted code or current line
+  # shift+command/ctrl+R -> create section
+  # ctrl/command+alt/option+R -> run entire script
+
+# a few settings to adjust (if there's time, while everyone catches up): 
+# preferences -> general -> uncheck "restore Rdata at startup"
+# preferences -> general -> save workspces to .Rdata -> "never"
+# preferences -> code -> check "soft wrap source files"
+
+
+
+# 1. TIDYING EXERCISE -----------------------------------------------------
+
+# see lecture slides
+
+# SKILL CHECK - do you know how to...
+# - create a new Rproject?
+# - examine and tidy data in Excel?
+# - save data in Excel for importing into R?
+
+
+
+# 2. LOADING AND INSTALLING LIBRARIES AND DATA ----------------------------
+
+# if you haven't installed tidyverse package previously, install it first.
+
+
+
+# a package is a set of programs and commands. anyone can develop and contribute packages for R. anytime you want to try out a new package, you'll need to install it first with the install.packages() command. you only need to install once, but each time you want to use the package, you'll need to load it with the library() command (each time you open up RStudio).
+
+# one of the most basic commands in R is assigning objects values using the <- symbol. it works like this: newname <- an_existing_object_or_datafile_or_value. now newname is equivalent to whatever was on the right side of the arrow. this basic structure can be combined with other commands, for example: meanvalue <- mean(mytable$mycolumn).
+
+# for now, so that we're all on the same page, we'll load some tidy data that I've given you.
+
+
+
+# let's practice head(), dim(), summary(), and str()
+
+
+
+
+
+# note that some columns are integers (numeric), and some are factors (categorical variables). factors will have the levels listed, and the number of observations of each level. columns containing numeric values will have minimum, maximum, etc.
+
+
+
+# some important symbols:
+
+# c() is a way of assigning multiple items to a name
+
+
+
+
+
+# $ is a tool for referring to columns in a dataframe
+
+
+
+# NA is the default symbol for a missing value. you can perform numeric operations on a numeric column that contains NAs, whereas if it contained other text that would prevent R from recognizing it as a numeric column. the same applies to factors.
+
+# SKILL CHECK - do you know how to...
+# - install and load libraries?
+# - import data into an R object?
+# - use summary() to view the data?
+
+
+
+# 3. CAMERON ET AL. FIGURE 2 ----------------------------------------------
+
+# let's recreate figure 2, and examine how roots occupied different void types over time.
+
+# what does the plot we want to make look like? consult cameron et al.
+# http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0108873
+
+# plot type = 
+# x-axis = 
+# y-axis = 
+# grouping = 
+
+# first, we should create separate data frames for the 2 species.
+# we can do this with the filter() function.
+# the species code for Achillea millefolium is ACHMIL.
+
+
+
+# the above says: take rootvoids, and filter it to keep only rows with "ACHMIL" in the species column. place the output into a new object called am_rootvoids.
+
+# what is %>% ?
+# %>% is a pipe. it takes the previous object, and feeds it into the next command.
+
+# take a look at this new data frame
+
+
+
+# now do the same for Campanula rotundifolia (species code = CAMROT)
+
+
+
+# now, we want to plot theproportion of each voidtype on each day that are colonized by roots
+# one way of doing this is to make a table calculating these proportions (don't worry about the error bars for now). 
+# since root colonization is recorded as 1, and no roots is recorded as 0, the proportion of cells containing roots can be calculated as the average of these 1s and 0s.
+
+
+
+# the above takes the dataframe "cr_rootvoids", groups the rows by voidtype and day, and then creates a new column called "prop_root" which is equal to the mean of the column "root" in the original data frame (these means are calculated separately for each of the groups created above). the output of these steps is placed into a new dataframe called "cr_rootvoids_prop".
+# note that the summarize() function drops columns that are not in either the group_by() command or the summarize() command.
+
+# what size do you expect this table to be?
+
+
+
+# does this table look okay?
+
+
+
+# basic ggplot syntax
+
+ggplot(dataframe, aes(x = your_x, y = your_y, color = group1, fill = group2)) +
+  geom______() +
+  labs()
+
+# dataframe = the data to use in this plot
+# aes = aesthetics, it supplies each part of the plot with variables
+# x = assign your x variable (horizontal axis)
+# y = assign your y variable
+# color = one way to group variables, this works for lines, points, and shapes with outlines
+# fill = another way to group variables, this works with shapes that have an interior to fill
+# geom_____  = a layer to plot, this describes the type of plot you're making, i.e. bar plot, box plot, etc.
+# labs = you can adjust your axis/legend labels here
+
+# now let's build our plot
+
+
+
+# now generate a plot for the Achillea data
+
+
+
+# does this table look okay?
+
+
+
+# is it the expected size?
+
+
+
+# now make a plot
+
+
+
+# you can save your plot with the export option near the plot tab.
+
+
+
+# extra challenges for figure 2 - NOT REQUIRED (these are advanced, but if you're bored with the main exercises you can give them a try)
+# 1. create a multipanel plot from the dataframe that contains both species (use google!)
+# 2. create a plot from your full data frame, without separately calculating averages (hint: stat = summary)
+# 3. add error bars to your plots (hint: stat_summary())
+# 4. extend the lines to begin at 0,0 as in the paper's plots (I couldn't find a quick way to do this in the ggplot command, so I found a work-around. let me know what you come up with!)
+
+
+
+# SKILL CHECK - do you know how to...
+# - filter() a dataframe based on the value of a single column?
+# - calculate mean values for different groups using group_by() and summarize()?
+# - generate a line plot with ggplot?
+
+
+
+# 4. CAMERON ET AL. FIGURE 3 ----------------------------------------------
+
+# what does the plot we want to make look like?
+
+# look at the data
+
+
+
+# plot type = 
+# x-axis = 
+# y-axis = 
+# grouping = 
+
+# load the data
+
+
+
+# some optional lines:
+# if we want the bars to be in the same order as in the paper:
+rootdeath$voidtype = factor(rootdeath$voidtype,levels(rootdeath$voidtype)[c(3,2,1)])
+
+# if we want the full names of species included
+rootdeath$species <- factor(rootdeath$species, labels = c("Achillea millefolium", "Campanula rotundifolia"))
+
+# make the plot
+# this time, both plant species are on a single plot
+# we can separate by species in a few ways. 
+# option 1: use fill
+
+
+
+# this plot uses a few new features of ggplot
+# first, within the geom_bar command, we'll use stat = "summary". this means that the function supplied by fun.data will be applied to each group. this is basically a way of performing the same summarize step that we performed earlier, but instead of creating a separate dataframe, these calculations are performed within the plotting code.
+# second, we'll use geom_errorbar to add errorbars to our plot
+
+# since the authors performed their analyses separately for each species, it's preferable to have the two species side-by-side
+# option 2: use facet_grid()
+  
+
+
+# here we've used a new ggplot feature:
+# facet_grid splits the data up by factors
+
+# if you want the 2 species to be different colors, as in the paper, you can keep the fill command, then add:
+  # scale_fill_discrete(guide = FALSE)
+# to remove the legend, which is redundant with the grid labels
+
+  
+# SKILL CHECK - do you know how to...
+# - make a bar plot with ggplot?
+# - add error bars to your plot?
+# - make multipanel plots?
+  
+
+
+# 5. CAMERON ET AL. FIGURE 4 ----------------------------------------------
+
+# now, on your own, recreate Cameron et al. figure 4. 
+# plant biomass data is in "roots-tidy/plant-biomass.csv"
+# to prepare the original data for this exercise, I had to reshape it. I'll show you how if there's time.
+# it's okay if your plot is slightly different in style or format from the plot in the paper, but keep the same groups and y-axis.
+# annotate your code with plenty of comments.
+# check that your plot is displaying the same information as the plot in the paper
+
+
+# plot type = 
+# x-axis = 
+# y-axis = 
+# grouping = 
+
+# there are several ways to generate a similar plot
+
+# if you want full species names:
+plants$species <- factor(plants$species, labels = c("Achillea millefolium", "Campanula rotundifolia"))
+
+# option 1: use facet_grid() for species
+
+
+  
+# option 2: concatenate species and biomass type
+# hint: to concatenate the contents of two columns:
+plants$sp_mass<- paste(plants$species, plants$biomass_type, sep = " ")
+
+# the below command will make your text wrap so labels don't overlap (use this new column, sp_mass_wrap, in your plot code)
+plants$sp_mass_wrap <-str_wrap(plants$sp_mass,width = 6)
+
+
+
+# 6. MAKE YOUR OWN FIGURE  ----------------------------------------------
+
+# using any of the 3 data frames from Cameron et al., think of another thing you'd like to visualize.
+# make a plot! 
+# be sure to include properly labeled axes.
+# annotate your code with plenty of comments.
+# if you're having trouble coming up with an idea, you can also re-plot the data from any of the above plots using a different plot type. If you do this, explain why your chosen plot type is a good choice for visualizing the data.
+
+# plot type = 
+# x-axis = 
+# y-axis = 
+# grouping = 
+

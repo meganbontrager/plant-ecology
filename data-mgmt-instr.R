@@ -238,7 +238,7 @@ ggplot(am_rootvoids_means,aes(x = day, y = prop_root, color = voidtype)) +
 # you can save your plot with the export option near the plot tab.
 
 
-# extra challenges for figure 2 (these are advanced, but if you're bored with the main exercises you can give them a try):
+# extra challenges for figure 2 - NOT REQUIRED (these are advanced, but if you're bored with the main exercises you can give them a try)
 # 1. create a multipanel plot from the dataframe that contains both species (use google!)
 # 2. create a plot from your full data frame, without separately calculating averages (hint: stat = summary)
 # 3. add error bars to your plots (hint: stat_summary())
@@ -297,7 +297,7 @@ ggplot(data = rootvoids_origins, aes(x = day, y = root, color = voidtype)) +
 
 # what does the plot we want to make look like?
 
-# check it out
+# look at the data
 summary(rootdeath)
 
 # plot type = bar
@@ -361,6 +361,8 @@ ggplot(data = rootdeath, aes(x = voidtype, y = dead)) +
 # to prepare the original data for this exercise, I had to reshape it. I'll show you how if there's time.
 # it's okay if your plot is slightly different in style or format from the plot in the paper, but keep the same groups and y-axis.
 # annotate your code with plenty of comments.
+# check that your plot is displaying the same information as the plot in the paper
+
 
 ## INSTRUCTOR ONLY
 # plant-biomass reshape
@@ -403,6 +405,7 @@ summary(plants)
 
 # there are several ways to generate a similar plot
 
+# if you want full species names:
 plants$species <- factor(plants$species, labels = c("Achillea millefolium", "Campanula rotundifolia"))
 
 # option 1: use facet_grid() for species
@@ -418,6 +421,7 @@ ggplot(data = plants, aes(x = biomass_type, y = biomass, fill = worms)) +
 # hint: to concatenate the contents of two columns:
 plants$sp_mass<- paste(plants$species, plants$biomass_type, sep = " ")
 
+# the below command will make your text wrap so labels don't overlap (use this new column, sp_mass_wrap, in your plot code)
 plants$sp_mass_wrap <-str_wrap(plants$sp_mass,width = 6)
 
 ggplot(data = plants, aes(x = sp_mass_wrap, y = biomass, fill = worms)) +
