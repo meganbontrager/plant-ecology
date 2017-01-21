@@ -27,7 +27,7 @@
 # a few settings to adjust (if there's time, while everyone catches up): 
 # preferences -> general -> uncheck "restore Rdata at startup"
 # preferences -> general -> save workspces to .Rdata -> "never"
-# preferences -> code -> check "soft wrap source files"
+# preferences -> code -> check "soft wrap source files" (notes will display better with this option)
 
 
 
@@ -46,7 +46,11 @@
 
 # if you haven't installed tidyverse package previously, install it first.
 
+install.packages("tidyverse") # you only need to do this once
 
+library(tidyverse) # do this each time you open R
+
+# if you're having trouble installing tidyverse, you can try installing it's separate components: dplyr and ggplot2
 
 # a package is a set of programs and commands. anyone can develop and contribute packages for R. anytime you want to try out a new package, you'll need to install it first with the install.packages() command. you only need to install once, but each time you want to use the package, you'll need to load it with the library() command (each time you open up RStudio).
 
@@ -54,29 +58,34 @@
 
 # for now, so that we're all on the same page, we'll load some tidy data that I've given you.
 
-
+rootvoids <- read.csv("roots-tidy/root-void-occurrence.csv")
 
 # let's practice head(), dim(), summary(), and str()
 
+head(rootvoids)
 
+dim(rootvoids)
 
-
+summary(rootvoids) 
 
 # note that some columns are integers (numeric), and some are factors (categorical variables). factors will have the levels listed, and the number of observations of each level. columns containing numeric values will have minimum, maximum, etc.
 
-
+str(rootvoids)
 
 # some important symbols:
 
 # c() is a way of assigning multiple items to a name
 
+numbers <- c(1,2,3,4,5)
+numbers
 
-
-
+names <- c("Amy","Megan","Rachel")
+names
 
 # $ is a tool for referring to columns in a dataframe
 
-
+summary(rootvoids$voidtype)
+mean(rootvoids$burrow)
 
 # NA is the default symbol for a missing value. you can perform numeric operations on a numeric column that contains NAs, whereas if it contained other text that would prevent R from recognizing it as a numeric column. the same applies to factors.
 
@@ -94,16 +103,17 @@
 # what does the plot we want to make look like? consult cameron et al.
 # http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0108873
 
-# plot type = 
-# x-axis = 
-# y-axis = 
-# grouping = 
+# plot type = line
+# x-axis = Time(days) = day
+# y-axis = proportion of cells occupied by roots = calculate from root
+# grouping = voidtype and species
 
 # first, we should create separate data frames for the 2 species.
 # we can do this with the filter() function.
 # the species code for Achillea millefolium is ACHMIL.
 
-
+am_rootvoids <- rootvoids %>% 
+  filter(species == "ACHMIL")
 
 # the above says: take rootvoids, and filter it to keep only rows with "ACHMIL" in the species column. place the output into a new object called am_rootvoids.
 
@@ -112,28 +122,31 @@
 
 # take a look at this new data frame
 
-
+summary(am_rootvoids) 
 
 # now do the same for Campanula rotundifolia (species code = CAMROT)
 
+cr_rootvoids <- rootvoids %>% 
+  filter(species == "CAMROT")
 
+summary(cr_rootvoids)
 
 # now, we want to plot theproportion of each voidtype on each day that are colonized by roots
 # one way of doing this is to make a table calculating these proportions (don't worry about the error bars for now). 
 # since root colonization is recorded as 1, and no roots is recorded as 0, the proportion of cells containing roots can be calculated as the average of these 1s and 0s.
 
-
+cr_rootvoids_prop <- cr_rootvoids %>% 
+  group_by(voidtype,day) %>% 
+  summarize(prop_root = mean(root))
 
 # the above takes the dataframe "cr_rootvoids", groups the rows by voidtype and day, and then creates a new column called "prop_root" which is equal to the mean of the column "root" in the original data frame (these means are calculated separately for each of the groups created above). the output of these steps is placed into a new dataframe called "cr_rootvoids_prop".
 # note that the summarize() function drops columns that are not in either the group_by() command or the summarize() command.
 
 # what size do you expect this table to be?
-
-
+dim(cr_rootvoids_prop)
 
 # does this table look okay?
-
-
+cr_rootvoids_prop
 
 # basic ggplot syntax
 
@@ -152,35 +165,33 @@ ggplot(dataframe, aes(x = your_x, y = your_y, color = group1, fill = group2)) +
 
 # now let's build our plot
 
-
+ggplot(cr_rootvoids_prop,aes(x = day, y = prop_root, color = voidtype)) +
+  geom_point() +
+  geom_path() +
+  labs(x = "Time (days)", y = "Proportion of voids colonized", color = "Void type")
 
 # now generate a plot for the Achillea data
 
-
+am_rootvoids_prop <- am_rootvoids %>% 
+  group_by(voidtype,day) %>% 
+  summarize(prop_root = mean(root))
 
 # does this table look okay?
 
-
+head(am_rootvoids_prop)
 
 # is it the expected size?
 
-
+dim(am_rootvoids_prop)
 
 # now make a plot
 
-
+ggplot(am_rootvoids_means,aes(x = day, y = prop_root, color = voidtype)) +
+  geom_point() +
+  geom_path() +
+  labs(x = "Time (days)", y = "Proportion of voids colonized", color = "Void type") 
 
 # you can save your plot with the export option near the plot tab.
-
-
-
-# extra challenges for figure 2 - NOT REQUIRED (these are advanced, but if you're bored with the main exercises you can give them a try)
-# 1. create a multipanel plot from the dataframe that contains both species (use google!)
-# 2. create a plot from your full data frame, without separately calculating averages (hint: stat = summary)
-# 3. add error bars to your plots (hint: stat_summary())
-# 4. extend the lines to begin at 0,0 as in the paper's plots (I couldn't find a quick way to do this in the ggplot command, so I found a work-around. let me know what you come up with!)
-
-
 
 # SKILL CHECK - do you know how to...
 # - filter() a dataframe based on the value of a single column?
@@ -194,17 +205,15 @@ ggplot(dataframe, aes(x = your_x, y = your_y, color = group1, fill = group2)) +
 # what does the plot we want to make look like?
 
 # look at the data
+summary(rootdeath)
 
-
-
-# plot type = 
-# x-axis = 
-# y-axis = 
-# grouping = 
+# plot type = bar
+# x-axis = type of void (voidtype)
+# y-axis = proportion of cells with roots dying (calculate from column dead)
+# grouping = species (this could also be considered an x-axis variable)
 
 # load the data
-
-
+rootdeath <- read.csv("roots-tidy/root-death.csv")
 
 # some optional lines:
 # if we want the bars to be in the same order as in the paper:
@@ -218,7 +227,10 @@ rootdeath$species <- factor(rootdeath$species, labels = c("Achillea millefolium"
 # we can separate by species in a few ways. 
 # option 1: use fill
 
-
+ggplot(data = rootdeath, aes(x = voidtype, y = dead, fill = species)) +
+  geom_bar(stat = "summary", fun.data = "mean_se", position = "dodge") +
+  geom_errorbar(stat = "summary", fun.data = "mean_se", position = position_dodge(width = 0.9), width = 0.2) +
+  labs(x = "Plant species and void type", y = "Proportion of cells with roots dying", fill = "Plant species")
 
 # this plot uses a few new features of ggplot
 # first, within the geom_bar command, we'll use stat = "summary". this means that the function supplied by fun.data will be applied to each group. this is basically a way of performing the same summarize step that we performed earlier, but instead of creating a separate dataframe, these calculations are performed within the plotting code.
@@ -227,10 +239,15 @@ rootdeath$species <- factor(rootdeath$species, labels = c("Achillea millefolium"
 # since the authors performed their analyses separately for each species, it's preferable to have the two species side-by-side
 # option 2: use facet_grid()
   
-
+ggplot(data = rootdeath, aes(x = voidtype, y = dead)) +
+  geom_bar(stat = "summary", fun.data = "mean_se", position = "dodge") +
+  geom_errorbar(stat = "summary", fun.data = "mean_se", position = position_dodge(width = 0.9), width = 0.2) +
+  labs(x = "Plant species and void type", y = "Proportion of cells with roots dying") +
+  theme(strip.text = element_text(face = "italic")) +
+  facet_grid(. ~ species) 
 
 # here we've used a new ggplot feature:
-# facet_grid splits the data up by factors
+# facet_grid splits the data up by factors 
 
 # if you want the 2 species to be different colors, as in the paper, you can keep the fill command, then add:
   # scale_fill_discrete(guide = FALSE)
@@ -248,7 +265,7 @@ rootdeath$species <- factor(rootdeath$species, labels = c("Achillea millefolium"
 
 # now, on your own, recreate Cameron et al. figure 4. 
 # plant biomass data is in "roots-tidy/plant-biomass.csv"
-# to prepare the original data for this exercise, I had to reshape it. I'll show you how if there's time.
+# to prepare the original data for this exercise, I had to reshape it. I'll show you how if there's time (if you want to see the reshape code, it's at the end in extra material).
 # it's okay if your plot is slightly different in style or format from the plot in the paper, but keep the same groups and y-axis.
 # annotate your code with plenty of comments.
 # check that your plot is displaying the same information as the plot in the paper
@@ -259,6 +276,7 @@ rootdeath$species <- factor(rootdeath$species, labels = c("Achillea millefolium"
 # y-axis = 
 # grouping = 
 
+
 # there are several ways to generate a similar plot
 
 # if you want full species names:
@@ -267,13 +285,15 @@ plants$species <- factor(plants$species, labels = c("Achillea millefolium", "Cam
 # option 1: use facet_grid() for species
 
 
-  
+ 
 # option 2: concatenate species and biomass type
+
 # hint: to concatenate the contents of two columns:
 plants$sp_mass<- paste(plants$species, plants$biomass_type, sep = " ")
 
 # the below command will make your text wrap so labels don't overlap (use this new column, sp_mass_wrap, in your plot code)
 plants$sp_mass_wrap <-str_wrap(plants$sp_mass,width = 6)
+
 
 
 
@@ -290,3 +310,74 @@ plants$sp_mass_wrap <-str_wrap(plants$sp_mass,width = 6)
 # y-axis = 
 # grouping = 
 
+
+
+
+
+# EXTRA -------------------------------------------------------------------
+
+
+### extra challenges for figure 2 - NOT REQUIRED (these are advanced, but if you're bored with the main exercises you can give them a try)
+# 1. create a multipanel plot from the dataframe that contains both species (use google!)
+# 2. create a plot from your full data frame, without separately calculating averages (hint: stat = summary)
+# 3. add error bars to your plots (hint: stat_summary())
+# 4. extend the lines to begin at 0,0 as in the paper's plots (I couldn't find a quick way to do this in the ggplot command, so I found a work-around. let me know what you come up with!)
+
+# one possible solution:
+
+# add full species names
+rootvoids$species <- factor(rootvoids$species, labels = c("Achillea millefolium", "Campanula rotundifolia"))
+
+# make a new mini-data frame with one row per group
+origins <- rootvoids %>% 
+  group_by(voidtype,species) %>% 
+  sample_n(1)
+
+# assign each row a 0 in the day and root columns
+origins$day<-c(0,0,0,0,0,0)
+origins$root<-c(0,0,0,0,0,0)
+
+head(origins)
+
+# bind these origin rows to the rootvoids frame
+rootvoids_origins <- bind_rows(rootvoids, origins)
+
+ggplot(data = rootvoids_origins, aes(x = day, y = root, color = voidtype)) +
+  geom_point(stat = "summary", fun.y = "mean") +
+  geom_path(stat = "summary", fun.y = "mean") +
+  stat_summary(fun.data = "mean_cl_normal", width = 5, geom = "errorbar") +
+  xlim(0,105) + 
+  expand_limits(y=0) +
+  facet_grid(. ~ species) +
+  theme(strip.text = element_text(face = "italic")) +
+  scale_color_discrete(name = "Void type") +
+  labs(x = "Time (days)", y = "Proportion of voids colonized", color = "Void type") 
+
+# note that the error bars on their plot are smaller because these are just based on a normal distribution
+
+### plant-biomass reshape
+
+plants_wide <- read.csv("roots-tidy/plant-biomass-wide.csv")
+
+head(plants_wide)
+
+# note that root and shoot biomass are in separate columns. but on our graph we want to have them side-
+# by-side on the same axis, so we want to put them in the same column, and add an additional column 
+# that indicates whether each row contains root or shoot data
+
+# to make our dataframe narrower and taller, we'll use gather()
+# we'll get rid of initial leaf length in this frame, or else it would be duplicated
+
+plants <- plants_wide %>% 
+  select(-initialleaflength) %>% 
+  gather("biomass_type","biomass",5:6)
+
+# make biomass_type a factor
+plants$biomass_type <- as.factor(plants$biomass_type)
+summary(plants)
+
+# let's make those names better
+plants$biomass_type <- factor(plants$biomass_type, labels = c("root", "shoot"))
+
+# and write the table out as a .csv
+# write.csv(plants,"roots-tidy/plant-biomass.csv", row.names = FALSE)

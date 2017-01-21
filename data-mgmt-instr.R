@@ -1,18 +1,25 @@
 ## PLANT ECOLOGY (BIOL406): Data management and manipulation
 
+# we used the sticky system (as in software carpentry workshops) to determine which students were keeping up and who needed assistance
+
 ## INSTRUCTOR NOTES
 
 # 0:00
+# open presentation: data-management.html
 # - introduce lab, pass out stickies (slide 1), try to mix up experienced and unexperienced students
 # - mention the slides will be posted online
 # - talk through slide 2
+
 # 0:10
 # - get Rstudio going, get files to everyone, get projects started (slide 3, demo the process) [STICKY CHECK]
-# - talk through tidy data slide (slide 4-5), then get them to open up excel file (slide 6) [STICKY CHECK]
+# - talk through tidy data slide (slide 4-5), then get them to open up excel file (roots-messy.xlsx) (slide 6) [STICKY CHECK]
+
 # 0:20
 # - have them discuss changes for ~5 min
+
 # 0:25
 # - open up excel file on screen and make adjustments to the excel file as they suggest them.
+
 ## ANSWERS:
 ## - delete extra rows at top
 ## - delete title
@@ -26,32 +33,29 @@
 ## - remove wrong units note from data field, create note column.
 ## - 32.o7 -> 32.07
 # show how to save as a csv into project folder
-# show how to import into R 
-# this is another way to check your data for errors
-# for now, just watch, in a minute you'll practice these commands yourself
-mydata <- read.csv("roots-messy.csv")
-# introduce summary(), head(), dim()
-head(mydata)
-summary(mydata)
-dim(mydata)
+
 # great, so, now you should know how to:
 # - create a new Rproject
 # - examine data in Excel
 # - save data in Excel for importing into R
-# - I've demoed looking at data in R, and now you'll get to do it yourself
-# 2:30 begin live coding, get everyone to open data-mgmt-student.R [STICKY CHECK]
-# go over the basics below
-# remind them: R is a language, it's very hard at first, and it's normal to feel very overwhelmed if you're not used to coding. but you;ll get it eventually, it's worth it, and we're all here to help
-# install/load emoji package to impress the kids
+
+# 2:30 begin live coding
+# - everyone open data-mgmt-student.R
+# - begin with section 2 of the script (keep this script open in a separate window while you code in the student template)
+# - remind them: R is a language, it's very hard at first, and it's normal to feel very overwhelmed if you're not used to coding. but you'll get it eventually, it's worth it, and we're all here to help
+
+# if you want to impress with emojis:
 # library(devtools)
 # install_github("dill/emoGG")
 library(emoGG)
+
 ## END INSTRUCTOR NOTES
 
 
 # in the following excercises, we'll recreate some of the figures from:
   # Cameron EK, Cahill JF Jr, Bayne EM (2014) Root Foraging Influences Plant Growth Responses 
   # to Earthworm Foraging. PLoS ONE 9(9): e108873. doi:10.1371/journal.pone.0108873
+# this data is available at https://era.library.ualberta.ca/files/z029p5988#.WIKrJZJVeAA
 
 # I wrote these exercises on a mac, so please alert me if you're having trouble translating any of the instructions on a PC.
 
@@ -246,6 +250,7 @@ ggplot(am_rootvoids_means,aes(x = day, y = prop_root, color = voidtype)) +
 
 
 ## INSTRUCTOR ONLY
+
 # one possible solution:
 
 # add full species names
@@ -284,6 +289,7 @@ ggplot(data = rootvoids_origins, aes(x = day, y = root, color = voidtype)) +
   labs(x = "Time (days)", y = "Proportion of voids colonized", color = "Void type") 
   
 # note that the error bars on their plot are smaller because these are just based on a normal distribution
+
 ## END INSTRUCTOR ONLY
 
 # SKILL CHECK - do you know how to...
@@ -421,8 +427,20 @@ ggplot(data = plants, aes(x = biomass_type, y = biomass, fill = worms)) +
 # hint: to concatenate the contents of two columns:
 plants$sp_mass<- paste(plants$species, plants$biomass_type, sep = " ")
 
+summary(plants$sp_mass)
+
+plants$sp_mass <- as.factor(plants$sp_mass)
+
 # the below command will make your text wrap so labels don't overlap (use this new column, sp_mass_wrap, in your plot code)
 plants$sp_mass_wrap <-str_wrap(plants$sp_mass,width = 6)
+
+summary(plants$sp_mass_wrap)
+
+plants$sp_mass_wrap <- as.factor(plants$sp_mass_wrap)
+
+
+library(stringr)
+
 
 ggplot(data = plants, aes(x = sp_mass_wrap, y = biomass, fill = worms)) +
   geom_bar(stat = "summary", fun.data = "mean_se", position = "dodge") +
@@ -444,13 +462,3 @@ ggplot(data = plants, aes(x = sp_mass_wrap, y = biomass, fill = worms)) +
 # y-axis = 
 # grouping = 
 
-
-
-# EXTRA -------------------------------------------------------------------
-
-# Methods text from Cameron et al.
-
-# We digitized the locations of roots, burrows, and cracks in the soil in images obtained at four time steps (01 September 2010, 29 September 2010, 03 November 2010, 08 December 2010) in ArcGIS (v 10, Esri). Images from each pot (18 mm × 222 mm) were divided into 6 mm ×6 mm grid cells, with 111 cells per pot. We then  determined occurrence of roots, burrows, and cracks within each cell at each time step.
-# Mixed effects logistic regression was used to examine root occurrence over time within grid cells containing burrows and cracks for each species separately. These models included void type (burrow, crack, or none), date, and the interaction of void type and date as fixed effects. The first date was not included in the analysis as planting had occurred just prior to imaging and there were no roots present at the depth of the mini-rhizotron tube. Pot identity and grid cell were used as random effects to account for correlations among grid cells within pots and within grid cells over time. We also performed post-hoc pairwise comparisons, with a Bonferroni correction for multiple testing, to examine root occurrence in cracks versus burrows at each time step. We focused our analysis on comparison of cracks versus burrows because detectability of roots is expected to be similar within these void types. In contrast, detectability might differ in the soil matrix versus in voids (cracks and burrows), as roots in voids are likely easier to see.
-# A similar mixed effects logistic regression analysis was used to examine differences in root mortality within grid cells containing burrows, cracks, and soil. We included a random effect to account for pot identity and a fixed effect to control for the date of initial colonization of cells by roots. In this analysis, we examined only grid cells with roots present during the experiment. Roots were considered to have died when they were no longer visible in the cell at subsequent time steps. Analyses were also performed using a random effect for tube identity (there were five pots along each tube), but they produced similar results and thus are not shown.
-# To assess effects of earthworms on root and shoot biomass, we used mixed effects linear regression with earthworm presence as a fixed effect and tube identity as a random effect. Species were analyzed separately. We also examined earthworm effects on biomass allocation to shoots versus roots using mixed effects linear regression with shoot biomass as the dependent variable and root biomass, earthworms, and the interaction between root biomass and earthworms as fixed effects. Tube identity was included as a random effect in this analysis as well. Normality was assessed by inspection of residuals and data were log transformed if non-normal. All analyses were conducted in Stata (v 12, StataCorp).
