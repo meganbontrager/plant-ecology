@@ -1,5 +1,9 @@
 ## PLANT ECOLOGY (BIOL406): Data management and manipulation
 
+# in the following excercises, we'll recreate some of the figures from:
+# Cameron EK, Cahill JF Jr, Bayne EM (2014) Root Foraging Influences Plant Growth Responses to Earthworm Foraging. PLoS ONE 9(9): e108873. doi:10.1371/journal.pone.0108873
+# this data is available at https://era.library.ualberta.ca/files/z029p5988#.WIKrJZJVeAA
+
 # we used the sticky system (as in software carpentry workshops) to determine which students were keeping up and who needed assistance
 
 ## INSTRUCTOR NOTES
@@ -51,11 +55,6 @@ library(emoGG)
 
 ## END INSTRUCTOR NOTES
 
-
-# in the following excercises, we'll recreate some of the figures from:
-  # Cameron EK, Cahill JF Jr, Bayne EM (2014) Root Foraging Influences Plant Growth Responses 
-  # to Earthworm Foraging. PLoS ONE 9(9): e108873. doi:10.1371/journal.pone.0108873
-# this data is available at https://era.library.ualberta.ca/files/z029p5988#.WIKrJZJVeAA
 
 # I wrote these exercises on a mac, so please alert me if you're having trouble translating any of the instructions on a PC.
 

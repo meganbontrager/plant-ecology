@@ -1,5 +1,10 @@
 roots metadata
 
+this metadata was written by Megan Bontrager to describe data from: 
+Cameron EK, Cahill JF Jr, Bayne EM (2014) Root Foraging Influences Plant Growth Responses to Earthworm Foraging. PLoS ONE 9(9): e108873. doi:10.1371/journal.pone.0108873
+
+original data is available at: https://era.library.ualberta.ca/files/z029p5988#.WIKrJZJVeAA
+
 root-void-occurence
   id: concatenated id of grid cell, tube, pot
   tubeid: tube id
